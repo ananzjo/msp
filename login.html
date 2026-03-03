@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الدخول | MSP - نظام إدارة المبيعات</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="global-config.js"></script>
+    
+    <style>
+        :root { 
+            --msp-green: #2fb45a; 
+            --msp-bronze: #b08d57;
+            --msp-dark: #1a1a1a;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #222 100%), 
+                        url('https://www.transparenttextures.com/patterns/cubes.png');
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            margin: 0; 
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        /* تأثير الزجاج (Glassmorphism) */
+        .login-glass-card {
+            background: rgba(255, 255, 255, 0.03); 
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); 
+            padding: 40px; 
+            border-radius: 30px;
+            width: 90%; 
+            max-width: 420px; 
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); 
+            text-align: center; 
+            color: white;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        .logo-area { margin-bottom: 25px; }
+        .logo-area img { width: 120px; border-radius: 15px; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3)); }
+
+        .form-group { margin-bottom: 25px; position: relative; text-align: right; }
+        .form-group label { display: block; margin-bottom: 10px; font-size: 0.9rem; color: var(--msp-green); font-weight: 500; }
+
+        .login-input {
+            width: 100%; 
+            padding: 14px 15px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05); 
+            color: white; 
+            outline: none; 
+            transition: 0.3s; 
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        .login-input:focus { 
+            border-color: var(--msp-green); 
+            background: rgba(255,255,255,0.1);
+            box-shadow: 0 0 15px rgba(47, 180, 90, 0.2);
+        }
+
+        .pass-toggle { 
+            position: absolute; 
+            left: 15px; 
+            top: 42px; 
+            cursor: pointer; 
+            color: #888; 
+            font-size: 1.2rem;
+        }
+
+        .login-btn {
+            width: 100%; 
+            padding: 16px; 
+            border-radius: 12px; 
+            border: none; 
+            background: linear-gradient(to left, var(--msp-green), #26a04d);
+            color: white; 
+            font-size: 1.1rem; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 10px;
+        }
+
+        .login-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 10px 25px rgba(47, 180, 90, 0.4); 
+        }
+
+        .login-btn:active { transform: scale(0.98); }
+
+        .login-btn:disabled { 
+            background: #444; 
+            cursor: not-allowed; 
+            transform: none; 
+            box-shadow: none;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .system-title { color: var(--msp-bronze); font-size: 1.4rem; margin: 10px 0; }
+        .system-desc { opacity: 0.6; font-size: 0.85rem; margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="login-glass-card">
+        <div class="logo-area">
+            <img src="MSP_Logo.jpeg" alt="MSP Logo">
+        </div>
+        
+        <h2 class="system-title">نظام إدارة المبيعات</h2>
+        <p class="system-desc">تسجيل الدخول للوصول إلى لوحة التحكم</p>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label>اسم المستخدم</label>
+                <input type="text" id="username" class="login-input" placeholder="أدخل اسمك..." required>
+            </div>
+
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" id="password" class="login-input" placeholder="••••••••" required>
+                <span class="pass-toggle" id="togglePass">👁️</span>
+            </div>
+
+            <button type="submit" id="submitBtn" class="login-btn">دخول للنظام 🚀</button>
+        </form>
+    </div>
+
+    <script src="login.js"></script>
+</body>
+</html>
