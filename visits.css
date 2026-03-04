@@ -1,339 +1,48 @@
-/* visits.css - Modern Style Pack (MSP) UI */
-
-:root {
-    --msp-green: #2fb45a; /* From Logo Circle */
-    --msp-bronze: #b08d57; /* From Logo Pillars */
-    --msp-blue: #0056b3; /* From Logo Text */
-    --msp-bg: #f8f9fa;
-    --msp-card: #ffffff;
-    --msp-text: #333333;
-    --transition: all 0.3s ease;
-    --shadow: 0 10px 30px rgba(0,0,0,0.08);
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: var(--msp-bg);
-    color: var(--msp-text);
-    display: flex;
-    min-height: 100vh;
-}
-
-/* --- Sliding Sidebar (Template) --- */
-.sidebar {
-    width: 260px;
-    background: white;
-    height: 100vh;
-    position: fixed;
-    right: 0; /* RTL alignment */
-    transition: var(--transition);
-    border-left: 1px solid #eee;
-    z-index: 1000;
-    box-shadow: var(--shadow);
-}
-
-.sidebar-header {
-    padding: 20px;
-    text-align: center;
-}
-
-.logo-img {
-    max-width: 120px;
-    height: auto;
-}
-
-.nav-links {
-    list-style: none;
-    margin-top: 30px;
-}
-
-.nav-links li a {
-    display: block;
-    padding: 15px 25px;
-    color: var(--msp-text);
-    text-decoration: none;
-    border-right: 4px solid transparent;
-    transition: var(--transition);
-}
-
-.nav-links li a.active, .nav-links li a:hover {
-    background: rgba(47, 180, 90, 0.05);
-    border-right-color: var(--msp-green);
-    color: var(--msp-green);
-}
-
-/* --- Main Content --- */
-.main-content {
-    flex: 1;
-    margin-right: 260px; /* Space for sidebar */
-    padding: 20px;
-    transition: var(--transition);
-}
-
-/* --- Header & Pulsing Clock --- */
-.top-header {
-    background: var(--msp-card);
-    padding: 15px 30px;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
-}
-
-.page-title {
-    color: var(--msp-blue);
-    font-weight: 700;
-}
-
-.connection-status {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.taxi-clock {
-    font-family: 'Courier New', Courier, monospace;
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #444;
-}
-
-.pulse-indicator {
-    width: 12px;
-    height: 12px;
-    background-color: var(--msp-green);
-    border-radius: 50%;
-    position: relative;
-    box-shadow: 0 0 0 rgba(47, 180, 90, 0.4);
-    animation: pulse-green 2s infinite;
-}
-
-@keyframes pulse-green {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(47, 180, 90, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(47, 180, 90, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(47, 180, 90, 0); }
-}
-
-/* --- Modern Form --- */
-.modern-form {
-    background: var(--msp-card);
-    padding: 30px;
+/* === MSP Sales - Visits Style === */
+.msp-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    box-shadow: var(--shadow);
+    padding: 25px;
 }
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
+.full-width { grid-column: 1 / -1; }
 
-.form-group.full-width {
-    grid-column: 1 / -1;
-}
-
-label {
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--msp-bronze);
-}
-
-input, select, textarea {
+.msp-input {
+    width: 100%;
     padding: 12px;
-    border: 1.5px solid #e0e0e0;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 10px;
+    color: white;
+    box-sizing: border-box;
+}
+
+.msp-input:focus {
+    border-color: #2fb45a;
     outline: none;
-    transition: var(--transition);
-}
-
-input:focus, select:focus, textarea:focus {
-    border-color: var(--msp-green);
-    box-shadow: 0 0 8px rgba(47, 180, 90, 0.1);
-}
-
-/* --- Buttons --- */
-.form-actions {
-    margin-top: 30px;
-    display: flex;
-    gap: 15px;
+    box-shadow: 0 0 10px rgba(47, 180, 90, 0.2);
 }
 
 .btn-primary {
-    background: var(--msp-green);
-    color: white;
-    border: none;
-    padding: 12px 35px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
+    background: linear-gradient(45deg, #2fb45a, #27ae60);
+    color: white; border: none; padding: 12px 25px; border-radius: 10px;
+    font-weight: bold; cursor: pointer; transition: 0.3s;
 }
 
 .btn-secondary {
     background: transparent;
-    border: 1.5px solid #ccc;
-    padding: 12px 25px;
-    border-radius: 10px;
+    color: #888; border: 1px solid #333; padding: 12px 25px; border-radius: 10px;
     cursor: pointer;
 }
 
-/* --- Table Section --- */
-.table-controls {
-    margin: 30px 0 15px;
+@media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
 }
-
-#globalFilter {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 25px;
-    padding: 12px 20px;
-}
-
-.table-wrapper {
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-
-/* تحسين لون الخلفية العام */
-body {
-    background-color: #f0f2f5; /* رمادي فاتح جداً مريح للعين */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-/* تنسيق الجدول بنمط Zebra */
-.table-wrapper {
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-    margin-top: 20px;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: white;
-}
-
-/* رأس الجدول - لون داكن فخم */
-thead tr {
-    background-color: #343a40; /* لون كربوني */
-    color: #ffffff;
-    text-align: right;
-}
-
-th {
-    padding: 15px;
-    font-weight: 600;
-    font-size: 0.95rem;
-    border-bottom: 2px solid var(--msp-green);
-}
-
-/* تطبيق نمط Zebra Stripes */
-tbody tr:nth-child(even) {
-    background-color: #f8f9fa; /* لون رمادي خفيف جداً للأسطر الزوجية */
-}
-
-tbody tr:nth-child(odd) {
-    background-color: #ffffff; /* أبيض للأسطر الفردية */
-}
-
-/* تأثير تمرير الماوس */
-tbody tr:hover {
-    background-color: rgba(47, 180, 90, 0.05) !important;
-    transition: background-color 0.2s ease;
-}
-
-td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #eee;
-    color: #444;
-    vertical-align: middle;
-}
-
-/* تحسين شكل المدخلات في الفورم ليتناسب مع الخلفية الجديدة */
-.modern-form {
-    border: 1px solid #e1e4e8;
-}
-
-/* تنسيق أزرار الإجراءات في الجدول */
-.edit-btn, .delete-btn {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: var(--transition);
-    margin: 0 4px;
-    font-size: 0.85rem;
-}
-
-.edit-btn {
-    background-color: rgba(47, 180, 90, 0.1);
-    color: var(--msp-green);
-    border: 1px solid var(--msp-green);
-}
-
-.edit-btn:hover {
-    background-color: var(--msp-green);
-    color: white;
-    transform: translateY(-2px);
-}
-
-.delete-btn {
-    background-color: rgba(255, 77, 77, 0.1);
-    color: #ff4d4d;
-    border: 1px solid #ff4d4d;
-}
-
-.delete-btn:hover {
-    background-color: #ff4d4d;
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* تحسين الأزرار العامة */
-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* حركة انسيابية */
-    cursor: pointer;
-}
-
-/* تأثير التكبير عند تمرير الماوس */
-button:hover:not(:disabled) {
-    transform: scale(1.15); /* ملاحظة: 1.5 قد يكون ضخماً جداً ويغطي المحتوى، لذا استخدمت 1.15 لجمالية أفضل، يمكنك تعديله لـ 1.5 إذا أردت */
-    filter: brightness(1.1);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-/* حالة الزر عند النقر (Disable) */
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    filter: grayscale(0.5);
-    transform: scale(1) !important; /* إلغاء التكبير عند التعطيل */
-}
-
-/* إضافة أيقونات نصية بسيطة (Informative) */
-#saveBtn::before { content: "💾"; }
-.edit-btn::before { content: "📝"; }
-.delete-btn::before { content: "🗑️"; }
-.btn-secondary::before { content: "🔄"; }
