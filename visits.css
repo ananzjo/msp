@@ -1,48 +1,37 @@
-/* === MSP Sales - Visits Style === */
-.msp-card {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    padding: 25px;
+/* === Visits Specific Style === */
+.section-title {
+    color: var(--msp-bronze);
+    font-weight: bold;
+    border-bottom: 1px solid rgba(176, 141, 87, 0.3);
+    padding-bottom: 5px;
+    margin: 15px 0 5px;
 }
 
 .form-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 15px;
 }
 
 .full-width { grid-column: 1 / -1; }
 
-.msp-input {
-    width: 100%;
-    padding: 12px;
-    background: rgba(0, 0, 0, 0.3);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    color: white;
-    box-sizing: border-box;
+.form-footer {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    text-align: left;
 }
 
-.msp-input:focus {
-    border-color: #2fb45a;
-    outline: none;
-    box-shadow: 0 0 10px rgba(47, 180, 90, 0.2);
-}
+.table-section { margin-top: 30px; overflow: hidden; }
+.table-container { overflow-x: auto; }
+.msp-table { width: 100%; border-collapse: collapse; color: #eee; font-size: 0.85rem; }
+.msp-table th { background: rgba(255,255,255,0.05); padding: 12px; text-align: right; color: var(--msp-green); }
+.msp-table td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.03); }
 
-.btn-primary {
-    background: linear-gradient(45deg, #2fb45a, #27ae60);
-    color: white; border: none; padding: 12px 25px; border-radius: 10px;
-    font-weight: bold; cursor: pointer; transition: 0.3s;
-}
-
-.btn-secondary {
-    background: transparent;
-    color: #888; border: 1px solid #333; padding: 12px 25px; border-radius: 10px;
-    cursor: pointer;
-}
-
-@media (max-width: 600px) {
-    .form-grid { grid-template-columns: 1fr; }
+.rating-badge {
+    background: var(--msp-bronze);
+    color: black;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
 }
