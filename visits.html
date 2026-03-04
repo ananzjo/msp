@@ -1,63 +1,33 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8"><title>توثيق زيارة | MSP</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="global-config.js"></script>
-    <style>
-        .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; color: var(--msp-bronze); font-size: 0.9rem; }
-        .msp-input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .msp-input:focus { border-color: var(--msp-green); outline: none; }
-        .section-tag { grid-column: 1/-1; background: #f0f4f1; padding: 10px; border-radius: 5px; color: var(--msp-green); font-weight: bold; margin-top: 10px; }
-        .msp-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .msp-table th { background: #f8f9fa; padding: 12px; text-align: right; border-bottom: 2px solid var(--msp-green); }
-        .msp-table td { padding: 12px; border-bottom: 1px solid #eee; }
-    </style>
-</head>
-<body>
-    <div class="main-content">
-        <div class="msp-card">
-            <h2 style="color:var(--msp-green); margin-top:0;">📝 توثيق زيارة ميدانية جديدة</h2>
-            <form id="visitForm">
-                <div class="form-grid">
-                    <div class="section-tag">📍 الموقع والمنشأة</div>
-                    <div class="form-group"><label>المحافظة</label><select id="f01_governorate" class="msp-input" required></select></div>
-                    <div class="form-group"><label>المنطقة</label><select id="f02_area" class="msp-input" required></select></div>
-                    <div class="form-group"><label>اسم المنشأة</label><input type="text" id="f03_facility_name" class="msp-input" required></div>
-                    
-                    <div class="section-tag">📞 التواصل والاحتياج</div>
-                    <div class="form-group"><label>المسؤول</label><input type="text" id="f07_contact_person" class="msp-input"></div>
-                    <div class="form-group"><label>الهاتف</label><input type="tel" id="f09_phone" class="msp-input"></div>
-                    <div class="form-group"><label>استهلاك الكرتون</label>
-                        <select id="f11_uses_carton" class="msp-input"><option value="نعم">نعم</option><option value="لا">لا</option></select>
-                    </div>
-                    
-                    <div class="section-tag">⚡ تفاصيل الفرصة</div>
-                    <div class="form-group"><label>فرصة المبيعات (f14)</label>
-                        <select id="f14_sales_opportunity" class="msp-input">
-                            <option value="عادية">عادية</option><option value="فورية">🔥 فورية</option><option value="مستبعدة">مستبعدة</option>
-                        </select>
-                    </div>
-                    <div class="form-group"><label>الكمية المتوقعة (كغم)</label><input type="number" id="f12_monthly_qty" class="msp-input"></div>
-                    <div class="form-group"><label>تقييم الزيارة (1-10)</label><input type="number" id="f19_rating" min="1" max="10" class="msp-input" value="5"></div>
-                </div>
-                <div style="margin-top:20px; text-align:left;">
-                    <button type="submit" class="btn-primary">حفظ وتوثيق البيانات 💾</button>
-                </div>
-            </form>
-        </div>
+<div class="msp-card">
+    <h2 style="color:var(--msp-green); margin-top:0;">📝 توثيق زيارة ميدانية</h2>
+    <form id="visitForm">
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+            <div><label>المحافظة (f01)</label><select id="f01_governorate" required></select></div>
+            <div><label>المنطقة (f02)</label><select id="f02_area" required></select></div>
+            <div><label>اسم المنشأة (f03)</label><input type="text" id="f03_facility_name" required></div>
+            
+            <div><label>نوع المنشأة (f04)</label><input type="text" id="f04_facility_type"></div>
+            <div><label>القطاع الصناعي (f05)</label><input type="text" id="f05_industrial_sector"></div>
+            <div><label>العنوان بالتفصيل (f06)</label><input type="text" id="f06_address"></div>
 
-        <div class="msp-card">
-            <h3 style="color:var(--msp-bronze);">📊 آخر 10 زيارات موثقة</h3>
-            <table class="msp-table">
-                <thead>
-                    <tr><th>التاريخ</th><th>المنشأة</th><th>المنطقة</th><th>المندوب</th><th>الفرصة</th></tr>
-                </thead>
-                <tbody id="visitsTableBody"></tbody>
-            </table>
+            <div><label>الشخص المسؤول (f07)</label><input type="text" id="f07_contact_person"></div>
+            <div><label>المسمى الوظيفي (f08)</label><input type="text" id="f08_job_title"></div>
+            <div><label>رقم الهاتف (f09)</label><input type="tel" id="f09_phone"></div>
+
+            <div><label>البريد الإلكتروني (f10)</label><input type="email" id="f10_email"></div>
+            <div><label>يستخدم كرتون؟ (f11)</label><select id="f11_uses_carton"><option value="نعم">نعم</option><option value="لا">لا</option></select></div>
+            <div><label>الكمية الشهرية (f12)</label><input type="number" id="f12_monthly_qty"></div>
+
+            <div><label>مستوى الاهتمام (f13)</label><input type="text" id="f13_interest_level"></div>
+            <div><label>فرصة المبيعات (f14)</label><select id="f14_sales_opportunity"><option value="عادية">عادية</option><option value="فورية">فورية</option></select></div>
+            <div><label>تاريخ الزيارة (f17)</label><input type="date" id="f17_visit_date" required></div>
+
+            <div><label>تحتاج متابعة؟ (f18)</label><select id="f18_follow_up"><option value="نعم">نعم</option><option value="لا">لا</option></select></div>
+            <div><label>تقييم الزيارة 1-10 (f19)</label><input type="number" id="f19_rating" min="1" max="10"></div>
+            <div style="grid-column: span 3;"><label>ملاحظات إضافية (f15)</label><textarea id="f15_notes" rows="2"></textarea></div>
         </div>
-    </div>
-    <script src="visits.js"></script>
-</body>
-</html>
+        <div style="margin-top:20px; text-align:left;">
+            <button type="submit" style="background:var(--msp-green); color:white; border:none; padding:15px 40px; border-radius:8px; cursor:pointer; font-weight:bold;">حفظ البيانات في السحابة 💾</button>
+        </div>
+    </form>
+</div>
