@@ -3,105 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الدخول | MSP - نظام إدارة المبيعات</title>
+    <title>إضافة زيارة | MSP System</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="global-config.js"></script>
     
-    <style>
-        :root { 
-            --msp-green: #2fb45a; 
-            --msp-bronze: #b08d57;
-            --msp-dark: #121212;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.1);
-        }
-
-        body {
-            background: radial-gradient(circle at center, #1e272e 0%, #050505 100%);
-            height: 100vh; display: flex; align-items: center; justify-content: center; 
-            margin: 0; font-family: 'Segoe UI', sans-serif; overflow: hidden;
-        }
-
-        /* بطاقة تسجيل الدخول الزجاجية */
-        .login-card {
-            background: var(--glass-bg); backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px;
-            width: 90%; max-width: 400px; box-shadow: 0 25px 50px rgba(0,0,0,0.5);
-            text-align: center; color: white; animation: slideUp 0.6s ease-out;
-        }
-
-        .logo-box img { width: 100px; margin-bottom: 15px; border-radius: 12px; }
-        
-        .form-group { margin-bottom: 20px; position: relative; text-align: right; }
-        .form-group label { display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--msp-green); }
-
-        .login-input {
-            width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid var(--glass-border);
-            background: rgba(255,255,255,0.05); color: white; outline: none; transition: 0.3s; box-sizing: border-box;
-        }
-
-        .login-input:focus { border-color: var(--msp-green); background: rgba(255,255,255,0.1); }
-
-        .pass-toggle { position: absolute; left: 15px; top: 38px; cursor: pointer; color: #888; }
-
-        .login-btn {
-            width: 100%; padding: 15px; border-radius: 12px; border: none;
-            background: linear-gradient(45deg, var(--msp-green), #27ae60);
-            color: white; font-size: 1.1rem; font-weight: bold; cursor: pointer;
-            transition: 0.3s; margin-top: 10px;
-        }
-
-        .login-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(47, 180, 90, 0.3); }
-
-        /* تنسيق المودال (بديل Alert) */
-        .modal-overlay {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
-            z-index: 1000; align-items: center; justify-content: center;
-        }
-
-        .modal-content {
-            background: #1c1c1c; border: 1px solid var(--glass-border);
-            padding: 30px; border-radius: 20px; text-align: center; color: white;
-            max-width: 320px; width: 80%; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .modal-icon { font-size: 3.5rem; margin-bottom: 15px; }
-        .modal-title { margin: 0 0 10px 0; font-size: 1.3rem; }
-        .modal-text { opacity: 0.7; margin-bottom: 20px; font-size: 0.95rem; }
-        .modal-close-btn {
-            background: var(--msp-green); border: none; color: white; padding: 10px 0;
-            width: 100%; border-radius: 10px; font-weight: bold; cursor: pointer;
-        }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    <link rel="stylesheet" href="cars-style.css">
+    <link rel="stylesheet" href="cars-responsive.css">
 </head>
-<body>
+<body class="sidebar-page">
 
-    <div class="login-card">
-        <div class="logo-box">
-            <img src="MSP_Logo.jpeg" alt="MSP">
+    <main class="main-content">
+        <div class="page-header">
+            <h2 class="page-title">📝 تسجيل زيارة ميدانية جديدة</h2>
+            <p class="page-subtitle">أدخل تفاصيل زيارة العميل بدقة لضمان مطابقة البيانات.</p>
         </div>
-        <h2 style="margin: 0; color: var(--msp-bronze);">نظام MSP المطور</h2>
-        <p style="opacity: 0.6; font-size: 0.9rem; margin-bottom: 30px;">نظام إدارة أسطول التغليف الذكي</p>
 
-        <form id="loginForm">
-            <div class="form-group">
-                <label>اسم المستخدم</label>
-                <input type="text" id="username" class="login-input" placeholder="اسم المستخدم..." required>
-            </div>
+        <section class="visit-form-container">
+            <form id="visitForm" class="msp-card">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>المحافظة</label>
+                        <select id="f_gov_id" class="msp-input" required>
+                            <option value="">اختر المحافظة...</option>
+                        </select>
+                    </div>
 
-            <div class="form-group">
-                <label>كلمة المرور</label>
-                <input type="password" id="password" class="login-input" placeholder="••••••••" required>
-                <span class="pass-toggle" id="eyeIcon">👁️</span>
-            </div>
+                    <div class="form-group">
+                        <label>المنطقة / القطاع</label>
+                        <select id="f_area_id" class="msp-input" required>
+                            <option value="">اختر المنطقة...</option>
+                        </select>
+                    </div>
 
-            <button type="submit" id="submitBtn" class="login-btn">دخول للنظام 🚀</button>
-        </form>
-    </div>
+                    <div class="form-group">
+                        <label>اسم العميل / المحل</label>
+                        <input type="text" id="f_client_name" class="msp-input" placeholder="اسم العميل..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>حالة الزيارة</label>
+                        <select id="f_visit_status" class="msp-input" required>
+                            <option value="تم البيع">✅ تم البيع</option>
+                            <option value="متابعة">⏳ متابعة لاحقاً</option>
+                            <option value="رفض">❌ رفض الطلب</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label>تفاصيل الزيارة وملاحظات المندوب</label>
+                        <textarea id="f_notes" class="msp-input" rows="4" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="saveVisitBtn" class="btn-primary">حفظ الزيارة والرفع للسحابة 🚀</button>
+                    <button type="reset" class="btn-secondary">مسح البيانات</button>
+                </div>
+            </form>
+        </section>
+    </main>
 
     <div id="mspModal" class="modal-overlay">
         <div class="modal-content">
@@ -112,6 +73,6 @@
         </div>
     </div>
 
-    <script src="login.js"></script>
+    <script src="cars-logic.js"></script>
 </body>
 </html>
