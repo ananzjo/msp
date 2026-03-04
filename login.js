@@ -61,14 +61,25 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             throw new Error("بيانات الدخول غير صحيحة، حاول مجدداً");
         }
 
-        // حفظ الجلسة والانتقال
+        
+        // حفظ الجلسة
         localStorage.setItem('msp_session', JSON.stringify(data));
         
+        // إظهار المودال
         showMspModal("مرحباً بك", `تم تسجيل دخول ${data.f_full_name} بنجاح`, "success");
 
+        // الانتقال الآمن
         setTimeout(() => {
-            window.location.href = 'visits.html';
+            // استخدام replace بدلاً من href يضمن مسح مسار الدخول من ذاكرة المتصفح
+            // ويمنع حدوث تعليق في الصفحة
+            window.location.replace('dashboard.html'); 
         }, 2000);
+
+    } catch (err) {
+        showMspModal("خطأ", err.message, "error");
+        btn.disabled = false;
+        btn.textContent = "دخول للنظام 🚀";
+    }
 
     } catch (err) {
         showMspModal("خطأ", err.message, "error");
