@@ -75,7 +75,7 @@ if (loginForm) {
 
             // الانتقال المضمون
             setTimeout(() => {
-                window.location.replace('dashboard.html');
+                window.location.replace('visits.html');
             }, 2000);
 
         } catch (err) {
