@@ -1,84 +1,64 @@
-/* === MSP Sales - Visits Logic === */
+/* === Visits Logic === */
 
 document.addEventListener('DOMContentLoaded', async () => {
-    // 1. تحميل المحافظات من جدول t02_lists
-    await loadGovernorates();
+    // تعيين تاريخ اليوم تلقائياً
+    document.getElementById('f17_visit_date').valueAsDate = new Date();
+    
+    await loadLists();
+    await fetchVisits();
 
-    // 2. مستمع تغيير المحافظة لتحميل المناطق
-    document.getElementById('f_gov_id').addEventListener('change', (e) => {
-        loadAreas(e.target.value);
-    });
-
-    // 3. معالجة حفظ النموذج
-    document.getElementById('visitForm').addEventListener('submit', handleSaveVisit);
+    document.getElementById('visitForm').addEventListener('submit', saveVisit);
 });
 
-async function loadGovernorates() {
-    const govSelect = document.getElementById('f_gov_id');
-    try {
-        const { data, error } = await supabaseClient
-            .from('t02_lists')
-            .select('*')
-            .eq('f01_category', 'governorate');
+async function loadLists() {
+    const { data } = await supabaseClient.from('t02_lists').select('*');
+    const govSel = document.getElementById('f01_governorate');
+    const areaSel = document.getElementById('f02_area');
 
-        if (error) throw error;
+    const govs = data.filter(i => i.f01_category === 'governorate');
+    govSel.innerHTML = '<option value="">اختر..</option>' + govs.map(g => `<option value="${g.f02_label_ar}">${g.f02_label_ar}</option>`).join('');
 
-        govSelect.innerHTML = '<option value="">اختر المحافظة...</option>';
-        data.forEach(gov => {
-            govSelect.innerHTML += `<option value="${gov.f00_record_no}">${gov.f02_label_ar}</option>`;
-        });
-    } catch (err) {
-        console.error("Gov Load Error:", err);
-    }
+    govSel.onchange = () => {
+        const parent = govs.find(g => g.f02_label_ar === govSel.value);
+        const areas = data.filter(i => i.f05_parent_no === parent?.f00_record_no);
+        areaSel.innerHTML = areas.map(a => `<option value="${a.f02_label_ar}">${a.f02_label_ar}</option>`).join('');
+    };
 }
 
-async function loadAreas(govId) {
-    const areaSelect = document.getElementById('f_area_id');
-    if (!govId) {
-        areaSelect.innerHTML = '<option value="">اختر المحافظة أولاً...</option>';
-        return;
-    }
-
-    try {
-        const { data, error } = await supabaseClient
-            .from('t02_lists')
-            .select('*')
-            .eq('f01_category', 'area')
-            .eq('f05_parent_no', govId);
-
-        if (error) throw error;
-
-        areaSelect.innerHTML = '<option value="">اختر المنطقة...</option>';
-        data.forEach(area => {
-            areaSelect.innerHTML += `<option value="${area.f00_record_no}">${area.f02_label_ar}</option>`;
-        });
-    } catch (err) {
-        console.error("Area Load Error:", err);
-    }
-}
-
-async function handleSaveVisit(e) {
+async function saveVisit(e) {
     e.preventDefault();
     const user = JSON.parse(localStorage.getItem('msp_user'));
+    
+    const formData = {};
+    // جمع كل الحقول التي تبدأ بـ f تلقائياً
+    document.querySelectorAll('.msp-input').forEach(input => {
+        formData[input.id] = input.value;
+    });
+    
+    formData.f16_sales_rep = user.f_full_name;
 
-    const visitData = {
-        f_gov_id: document.getElementById('f_gov_id').value,
-        f_area_id: document.getElementById('f_area_id').value,
-        f_client_name: document.getElementById('f_client_name').value,
-        f_visit_status: document.getElementById('f_visit_status').value,
-        f_notes: document.getElementById('f_notes').value,
-        f_created_by: user.f_username,
-        f_date: new Date().toISOString()
-    };
+    const { error } = await supabaseClient.from('t01_visits').insert([formData]);
 
-    try {
-        // افترضنا اسم الجدول t03_visits حسب النمط المتبع
-        const { error } = await supabaseClient.from('t03_visits').insert([visitData]);
-        if (error) throw error;
-
-        showNotification("تم حفظ الزيارة بنجاح", "success");
+    if (error) {
+        showNotification("خطأ في الحفظ: " + error.message, "error");
+    } else {
+        showNotification("تم توثيق الزيارة بنجاح", "success");
         e.target.reset();
-    } catch (err) {
-        showNotification("خطأ أثناء الحفظ: " + err.message, "error");
+        fetchVisits();
     }
+}
+
+async function fetchVisits() {
+    const { data } = await supabaseClient.from('t01_visits').select('*').order('f00_created_at', {ascending: false}).limit(10);
+    const tbody = document.getElementById('visitsTableBody');
+    tbody.innerHTML = data.map(v => `
+        <tr>
+            <td>${v.f17_visit_date}</td>
+            <td><b>${v.f03_facility_name}</b></td>
+            <td>${v.f01_governorate}</td>
+            <td>${v.f07_contact_person || '-'}</td>
+            <td><span class="rating-badge">${v.f19_rating || 0}</span></td>
+            <td><button class="btn-secondary" style="padding:4px 8px" onclick="alert('${v.f15_notes || 'لا ملاحظات'}')">👁️</button></td>
+        </tr>
+    `).join('');
 }
