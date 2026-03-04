@@ -8,71 +8,61 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="global-config.js"></script>
     
-    <link rel="stylesheet" href="cars-style.css">
-    <link rel="stylesheet" href="cars-responsive.css">
+    <link rel="stylesheet" href="visits.css">
 </head>
-<body class="sidebar-page">
+<body>
 
     <main class="main-content">
         <div class="page-header">
-            <h2 class="page-title">📝 تسجيل زيارة ميدانية جديدة</h2>
-            <p class="page-subtitle">أدخل تفاصيل زيارة العميل بدقة لضمان مطابقة البيانات.</p>
+            <h2 class="page-title">📝 تسجيل زيارة ميدانية</h2>
+            <p class="page-subtitle">نظام MSP لإدارة المبيعات والتغليف</p>
         </div>
 
-        <section class="visit-form-container">
-            <form id="visitForm" class="msp-card">
+        <div class="msp-card">
+            <form id="visitForm">
                 <div class="form-grid">
                     <div class="form-group">
                         <label>المحافظة</label>
                         <select id="f_gov_id" class="msp-input" required>
-                            <option value="">اختر المحافظة...</option>
+                            <option value="">جاري التحميل...</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>المنطقة / القطاع</label>
                         <select id="f_area_id" class="msp-input" required>
-                            <option value="">اختر المنطقة...</option>
+                            <option value="">اختر المحافظة أولاً...</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label>اسم العميل / المحل</label>
-                        <input type="text" id="f_client_name" class="msp-input" placeholder="اسم العميل..." required>
+                        <label>اسم العميل</label>
+                        <input type="text" id="f_client_name" class="msp-input" placeholder="اسم المحل أو العميل" required>
                     </div>
 
                     <div class="form-group">
                         <label>حالة الزيارة</label>
                         <select id="f_visit_status" class="msp-input" required>
                             <option value="تم البيع">✅ تم البيع</option>
-                            <option value="متابعة">⏳ متابعة لاحقاً</option>
-                            <option value="رفض">❌ رفض الطلب</option>
+                            <option value="متابعة">⏳ متابعة</option>
+                            <option value="رفض">❌ رفض</option>
                         </select>
                     </div>
 
                     <div class="form-group full-width">
-                        <label>تفاصيل الزيارة وملاحظات المندوب</label>
-                        <textarea id="f_notes" class="msp-input" rows="4" placeholder="اكتب ملاحظاتك هنا..."></textarea>
+                        <label>الملاحظات</label>
+                        <textarea id="f_notes" class="msp-input" rows="3"></textarea>
                     </div>
                 </div>
 
-                <div class="form-actions">
-                    <button type="submit" id="saveVisitBtn" class="btn-primary">حفظ الزيارة والرفع للسحابة 🚀</button>
-                    <button type="reset" class="btn-secondary">مسح البيانات</button>
+                <div style="margin-top: 25px; display: flex; gap: 10px;">
+                    <button type="submit" class="btn-primary">حفظ البيانات 🚀</button>
+                    <button type="reset" class="btn-secondary">إلغاء</button>
                 </div>
             </form>
-        </section>
+        </div>
     </main>
 
-    <div id="mspModal" class="modal-overlay">
-        <div class="modal-content">
-            <div id="modalIcon" class="modal-icon"></div>
-            <h3 id="modalTitle" class="modal-title"></h3>
-            <p id="modalText" class="modal-text"></p>
-            <button onclick="closeMspModal()" class="modal-close-btn">فهمت</button>
-        </div>
-    </div>
-
-    <script src="cars-logic.js"></script>
+    <script src="visits.js"></script>
 </body>
 </html>
