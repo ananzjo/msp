@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard | MSP</title>
+    <title>Dashboard | MSP System</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="global-config.js"></script>
 </head>
@@ -10,35 +10,64 @@
     <div class="main-wrapper">
         <header style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px;">
             <div>
-                <h2 style="margin:0; color:var(--msp-bronze);">نظام MSP لإدارة المبيعات</h2>
-                <small style="color:#888;">Modern Style Pack Sales System</small>
+                <h1 style="margin:0; color:var(--msp-green); font-size:1.8rem;">لوحة التحكم | Sales Dashboard</h1>
+                <p style="color:#888; margin:5px 0 0;">متابعة أداء مناديب شركة الطراز الحديث | Modern Style Pack</p>
             </div>
             <div id="digitalClock">00:00:00</div>
         </header>
 
         <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:25px;">
-            <div class="msp-card" style="text-align:center;">
-                <h4 style="color:#aaa;">إجمالي الزيارات | Total Visits</h4>
-                <h1 id="totalVisits" style="color:var(--msp-green); font-size:3rem; margin:10px 0;">0</h1>
+            
+            <div class="msp-card" style="text-align:center; border-bottom: 4px solid var(--msp-green);">
+                <div style="font-size: 0.9rem; color: var(--msp-bronze); font-weight: bold; margin-bottom: 10px;">إجمالي الزيارات | Total Visits</div>
+                <h1 id="totalVisits" style="color:white; font-size:3.5rem; margin:0; font-family: 'Orbitron', sans-serif;">0</h1>
+                <p style="color:#666; font-size:0.8rem; margin-top:10px;">منذ بداية الشهر الحالي</p>
             </div>
-            <div class="msp-card" style="text-align:center;">
-                <h4 style="color:#aaa;">فرص فورية | Hot Leads</h4>
-                <h1 id="hotLeads" style="color:#ff4757; font-size:3rem; margin:10px 0;">0</h1>
+
+            <div class="msp-card" style="text-align:center; border-bottom: 4px solid #ff4757;">
+                <div style="font-size: 0.9rem; color: var(--msp-bronze); font-weight: bold; margin-bottom: 10px;">فرص فورية | Hot Leads 🔥</div>
+                <h1 id="hotLeads" style="color:#ff4757; font-size:3.5rem; margin:0; font-family: 'Orbitron', sans-serif;">0</h1>
+                <p style="color:#666; font-size:0.8rem; margin-top:10px;">تحتاج إغلاق بيع فوري</p>
             </div>
-            <div class="msp-card" style="text-align:center;">
-                <h4 style="color:#aaa;">الكمية المتوقعة | Est. Qty</h4>
-                <h1 id="totalQty" style="color:var(--msp-bronze); font-size:3rem; margin:10px 0;">0</h1>
+
+            <div class="msp-card" style="text-align:center; border-bottom: 4px solid var(--msp-bronze);">
+                <div style="font-size: 0.9rem; color: var(--msp-bronze); font-weight: bold; margin-bottom: 10px;">الكمية المتوقعة | Est. Qty (kg)</div>
+                <h1 id="totalQty" style="color:var(--msp-bronze); font-size:3.5rem; margin:0; font-family: 'Orbitron', sans-serif;">0</h1>
+                <p style="color:#666; font-size:0.8rem; margin-top:10px;">إجمالي احتياج العملاء الموثق</p>
             </div>
+
         </div>
+
+        <footer style="margin-top: 50px; text-align: center; color: #444; border-top: 1px solid var(--border); padding-top: 20px;">
+            <p>© 2026 Modern Style Pack | MSP Sales Intelligence Unit</p>
+        </footer>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
-            const { data: visits } = await supabaseClient.from('t01_visits').select('*');
-            if (visits) {
-                document.getElementById('totalVisits').textContent = visits.length;
-                document.getElementById('hotLeads').textContent = visits.filter(v => v.f14_sales_opportunity === 'فورية').length;
-                const totalQty = visits.reduce((sum, v) => sum + (parseFloat(v.f12_monthly_qty) || 0), 0);
-                document.getElementById('totalQty').textContent = totalQty.toLocaleString();
+            try {
+                // جلب البيانات من جدول t01_visits بناءً على السكيمة
+                const { data: visits, error } = await supabaseClient
+                    .from('t01_visits')
+                    .select('f12_monthly_qty, f14_sales_opportunity');
+
+                if (error) throw error;
+
+                if (visits) {
+                    // 1. حساب إجمالي الزيارات
+                    document.getElementById('totalVisits').textContent = visits.length;
+
+                    // 2. حساب الفرص الفورية (Hot Leads)
+                    const hotCount = visits.filter(v => v.f14_sales_opportunity === 'فورية').length;
+                    document.getElementById('hotLeads').textContent = hotCount;
+
+                    // 3. حساب إجمالي الكميات المتوقعة (f12)
+                    const totalQty = visits.reduce((sum, v) => sum + (parseFloat(v.f12_monthly_qty) || 0), 0);
+                    document.getElementById('totalQty').textContent = totalQty.toLocaleString();
+                }
+            } catch (err) {
+                console.error("Dashboard Load Error:", err.message);
+                showNotification("خطأ في البيانات", "تعذر جلب إحصائيات لوحة التحكم من السحابة.", "error");
             }
         });
     </script>
