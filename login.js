@@ -14,49 +14,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 2. معالجة نموذج تسجيل الدخول
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
+/* تحديث كود الدخول في login.html */
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userVal = document.getElementById('f01_username').value.trim();
+    const passVal = document.getElementById('f02_password').value.trim();
 
-            const userVal = document.getElementById('username').value.trim();
-            const passVal = document.getElementById('password').value.trim();
-            const btn = document.getElementById('submitBtn');
+    try {
+        // نستخدم .select() مع فلتر مباشر لتجنب تعقيدات الـ API
+        const { data, error, status } = await supabaseClient
+            .from('t99_users')
+            .select('*')
+            .eq('f01_username', userVal)
+            .eq('f02_password', passVal);
 
-            // تغيير حالة الزر أثناء التحقق
-            btn.disabled = true;
-            btn.innerHTML = 'جاري التحقق... <span class="spinner">⏳</span>';
+        if (error) {
+            console.error("Supabase Error:", error);
+            showNotification("خطأ في الخادم", `رمز الخطأ: ${status} - ${error.message}`, "error");
+            return;
+        }
 
-            try {
-                // الاستعلام من جدول المستخدمين الموحد t99_users
-                const { data, error } = await supabaseClient
-                    .from('t99_users')
-                    .select('*')
-                    .eq('f_username', userVal)
-                    .eq('f_password', passVal)
-                    .single();
-
-                if (error || !data) {
-                    throw new Error("اسم المستخدم أو كلمة المرور غير صحيحة");
-                }
-
-                // حفظ بيانات المستخدم في LocalStorage (يقرأها المحرك العالمي)
-                localStorage.setItem('msp_user', JSON.stringify(data));
-
-                // إظهار رسالة نجاح باستخدام المودال الموحد
-                showMspModal("مرحباً بك مجدداً", `أهلاً بك يا ${data.f_full_name}، جاري تحضير لوحة التحكم...`, "success");
-
-                // الانتقال للداشبورد بعد ثانيتين
-                setTimeout(() => {
-                    window.location.replace('dashboard.html');
-                }, 2000);
-
-            } catch (err) {
-                showMspModal("فشل الدخول", err.message, "error");
-                btn.disabled = false;
-                btn.innerHTML = 'دخول للنظام 🚀';
-            }
-        });
+        if (data && data.length > 0) {
+            localStorage.setItem('msp_user', JSON.stringify(data[0]));
+            window.location.replace('dashboard.html');
+        } else {
+            showNotification("دخول غير مصرح", "تأكد من اسم المستخدم وكلمة المرور.", "error");
+        }
+    } catch (err) {
+        showNotification("عطل فني", "فشل الاتصال بقاعدة البيانات.", "error");
     }
 });
 
