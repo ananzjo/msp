@@ -1,30 +1,37 @@
-/* تحديث كود الدخول في login.html */
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const userVal = document.getElementById('f01_username').value.trim();
-    const passVal = document.getElementById('f02_password').value.trim();
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>دخول النظام | MSP</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="login.css">
+</head>
+<body>
 
-    try {
-        // نستخدم .select() مع فلتر مباشر لتجنب تعقيدات الـ API
-        const { data, error, status } = await supabaseClient
-            .from('t99_users')
-            .select('*')
-            .eq('f01_username', userVal)
-            .eq('f02_password', passVal);
+    <div class="login-container">
+        <div class="login-card">
+            <img src="MSP_Logo.jpeg" alt="MSP Logo" class="logo">
+            <h2>نظام إدارة الزيارات الذكي</h2>
+            <p>يرجى إدخال بيانات الاعتماد للوصول</p>
+            
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>اسم المستخدم (f01)</label>
+                    <input type="text" id="f01_username" placeholder="User Name" required>
+                </div>
+                
+                <div class="input-group">
+                    <label>كلمة المرور (f02)</label>
+                    <input type="password" id="f02_password" placeholder="Password" required>
+                </div>
+                
+                <button type="submit" id="loginBtn">دخول للنظام 🚀</button>
+            </form>
+        </div>
+    </div>
 
-        if (error) {
-            console.error("Supabase Error:", error);
-            showNotification("خطأ في الخادم", `رمز الخطأ: ${status} - ${error.message}`, "error");
-            return;
-        }
-
-        if (data && data.length > 0) {
-            localStorage.setItem('msp_user', JSON.stringify(data[0]));
-            window.location.replace('dashboard.html');
-        } else {
-            showNotification("دخول غير مصرح", "تأكد من اسم المستخدم وكلمة المرور.", "error");
-        }
-    } catch (err) {
-        showNotification("عطل فني", "فشل الاتصال بقاعدة البيانات.", "error");
-    }
-});
+    <script src="global-config.js"></script>
+    <script src="login.js"></script>
+</body>
+</html>
