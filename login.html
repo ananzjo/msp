@@ -1,37 +1,15 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>دخول النظام | MSP</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link rel="stylesheet" href="login.css">
-</head>
-<body>
-
-    <div class="login-container">
-        <div class="login-card">
-            <img src="MSP_Logo.jpeg" alt="MSP Logo" class="logo">
-            <h2>نظام إدارة الزيارات الذكي</h2>
-            <p>يرجى إدخال بيانات الاعتماد للوصول</p>
-            
-            <form id="loginForm">
-                <div class="input-group">
-                    <label>اسم المستخدم (f01)</label>
-                    <input type="text" id="f01_username" placeholder="User Name" required>
-                </div>
-                
-                <div class="input-group">
-                    <label>كلمة المرور (f02)</label>
-                    <input type="password" id="f02_password" placeholder="Password" required>
-                </div>
-                
-                <button type="submit" id="loginBtn">دخول للنظام 🚀</button>
-            </form>
+<link rel="stylesheet" href="login.css">
+<div class="login-box">
+    <img src="MSP_Logo.jpeg" width="100">
+    <h2>دخول نظام الطراز MSP</h2>
+    <form id="loginForm">
+        <input type="text" id="f01_username" placeholder="اسم المستخدم" required>
+        <div style="position:relative;">
+            <input type="password" id="f02_password" placeholder="كلمة المرور" required>
+            <span id="eyeIcon" style="position:absolute;left:10px;top:10px;cursor:pointer;">👁️</span>
         </div>
-    </div>
-
-    <script src="global-config.js"></script>
-    <script src="login.js"></script>
-</body>
-</html>
+        <button type="submit">دخول آمن 🚀</button>
+    </form>
+</div>
+<script src="global-config.js"></script>
+<script src="login.js"></script>

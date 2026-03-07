@@ -2,69 +2,51 @@
     --msp-green: #2fb45a;
     --bg-dark: #1a1e23;
     --card-bg: #2c343c;
-    --text-white: #ffffff;
 }
 
 body {
     margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--bg-dark);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background: var(--bg-dark);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+    direction: rtl;
 }
 
-.login-container {
-    width: 100%;
-    max-width: 400px;
-    padding: 20px;
-}
-
-.login-card {
+.login-box {
     background: var(--card-bg);
     padding: 40px;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
     text-align: center;
+    width: 350px;
     border: 1px solid rgba(255,255,255,0.05);
 }
 
-.logo {
-    width: 120px;
-    margin-bottom: 20px;
-    border-radius: 10px;
-}
-
-h2 { color: var(--text-white); margin-bottom: 5px; }
-p { color: #88929b; font-size: 0.9rem; margin-bottom: 30px; }
-
-.input-group { text-align: right; margin-bottom: 20px; }
-.input-group label { display: block; color: #b08d57; margin-bottom: 8px; font-size: 0.85rem; }
+.login-box h2 { color: var(--msp-green); margin-bottom: 25px; }
 
 input {
     width: 100%;
-    padding: 12px 15px;
+    padding: 12px;
+    margin-bottom: 15px;
     border-radius: 8px;
     border: 1px solid #45505a;
     background: #1a1e23;
     color: white;
     box-sizing: border-box;
-    outline: none;
 }
-
-input:focus { border-color: var(--msp-green); }
 
 button {
     width: 100%;
-    padding: 14px;
+    padding: 12px;
     background: var(--msp-green);
-    color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 1rem;
+    color: white;
     font-weight: bold;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
 }

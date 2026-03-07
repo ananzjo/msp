@@ -1,50 +1,16 @@
-/* === MSP System - Login Logic [V3.1 Clean] === */
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const u = document.getElementById('f01_username').value;
+    const p = document.getElementById('f02_password').value;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
-    const eyeIcon = document.getElementById('eyeIcon');
-    const passInput = document.getElementById('f02_password'); // تم توحيد الـ ID
+    const { data, error } = await supabaseClient.from('t99_users')
+        .select('*').eq('f01_username', u).eq('f02_password', p).maybeSingle();
 
-    // 1. تبديل رؤية كلمة المرور
-    if (eyeIcon && passInput) {
-        eyeIcon.addEventListener('click', () => {
-            const isPass = passInput.type === 'password';
-            passInput.type = isPass ? 'text' : 'password';
-            eyeIcon.textContent = isPass ? '🔒' : '👁️';
-        });
-    }
-
-    // 2. معالجة الدخول
-    if (loginForm) {
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const userVal = document.getElementById('f01_username').value.trim();
-            const passVal = document.getElementById('f02_password').value.trim();
-
-            try {
-                const { data, error, status } = await supabaseClient
-                    .from('t99_users')
-                    .select('*')
-                    .eq('f01_username', userVal)
-                    .eq('f02_password', passVal);
-
-                if (error) {
-                    console.error("Supabase Error:", error);
-                    // استخدمنا الدالة الموحدة showNotification
-                    showNotification("خطأ في الخادم", `رمز الخطأ: ${status}`, "error");
-                    return;
-                }
-
-                if (data && data.length > 0) {
-                    localStorage.setItem('msp_user', JSON.stringify(data[0]));
-                    showNotification("نجاح", `أهلاً بك يا سيد ${data[0].f03_full_name}`, "success");
-                    setTimeout(() => window.location.replace('dashboard.html'), 1000);
-                } else {
-                    showNotification("دخول غير مصرح", "تأكد من اسم المستخدم وكلمة المرور.", "error");
-                }
-            } catch (err) {
-                showNotification("عطل فني", "فشل الاتصال بقاعدة البيانات.", "error");
-            }
-        });
+    if (data) {
+        localStorage.setItem('msp_user', JSON.stringify(data));
+        showNotification("نجاح", `أهلاً بك سيد ${data.f03_full_name}`, "success");
+        setTimeout(() => window.location.href = 'dashboard.html', 1000);
+    } else {
+        showNotification("فشل", "بيانات الدخول خاطئة", "error");
     }
 });
